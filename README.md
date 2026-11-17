@@ -6,9 +6,9 @@
 
 **Chopin’s twenty-four études, charted as stars on the circle of fifths. Every mark is computed from the music.**
 
-**[View the sky](https://www.theodoreoy.com/etude-sky/)**
+**[View the sky](https://www.theodoreoy.com/BLOG-Etude-Sky/)**
 
-[![The twenty-four plates of The Étude Sky, Op. 10 in the upper two rows and Op. 25 in the lower two](.github/readme/plates.jpg)](https://www.theodoreoy.com/etude-sky/)
+[![The twenty-four plates of The Étude Sky, Op. 10 in the upper two rows and Op. 25 in the lower two](.github/readme/plates.jpg)](https://www.theodoreoy.com/BLOG-Etude-Sky/)
 
 When I look up at the night sky, I think of Chopin’s études. This is the picture that forms in my mind: each étude a star, placed by its key, and each a plate drawn from the music itself. Someone else, looking up, would see another sky.
 
