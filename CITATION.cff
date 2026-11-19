@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+type: software
+title: "The Étude Sky"
+version: "V_202611"
+date-released: 2026-11-19
+abstract: "Chopin's twenty-four études, charted as stars on the circle of fifths. Every mark is computed from the music. The site, the analysis of the recordings and the twenty-four plates."
+authors:
+  - family-names: Ouyang
+    given-names: "Letao (Theodore)"
+repository-code: "https://github.com/130U/BLOG-Etude-Sky"
+url: "https://www.theodoreoy.com/BLOG-Etude-Sky/"
+keywords:
+  - music
+  - Chopin
+  - études
+  - circle of fifths
+  - data visualisation
+  - astronomy
+preferred-citation:
+  type: website
+  title: "The Étude Sky"
+  authors:
+    - family-names: Ouyang
+      given-names: "Letao (Theodore)"
+  year: 2026
+  url: "https://www.theodoreoy.com/BLOG-Etude-Sky/"

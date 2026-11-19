@@ -1,0 +1,1004 @@
+main,
+.masthead,
+.player {
+  position: relative;
+  z-index: 1;
+}
+
+.kicker,
+.masthead,
+.button,
+.text-link,
+.hint,
+.scroll-head,
+.scroll-rows,
+.tile-ident,
+.now-ident,
+.time,
+.index,
+.cycle,
+.quote footer,
+.epigraph figcaption,
+.notes h3,
+.glossary dt,
+.entry dt {
+  font-family: var(--mono);
+  font-size: var(--size-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.text-link {
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-decoration-color: var(--hair-2);
+  text-underline-offset: 5px;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+.text-link:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink);
+}
+
+.button {
+  padding: 13px 22px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.button:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Masthead */
+.masthead {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26px 48px;
+}
+.mark {
+  text-decoration: none;
+}
+.masthead nav {
+  display: flex;
+  gap: 28px;
+}
+.masthead nav a {
+  text-decoration: none;
+  color: var(--ink-2);
+}
+.masthead nav a:hover {
+  color: var(--ink);
+}
+
+/* Hero: the chart with its handscroll beneath, and beside them the card */
+.hero {
+  --top: 84px;
+  --bottom: 96px;
+  --gap: 28px;
+  --scroll-h: 128px;
+  --scroll-head: 36px;
+  position: relative;
+  min-height: 100svh;
+  padding: var(--top) 48px var(--bottom);
+  display: grid;
+  align-items: center;
+}
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+  gap: 72px;
+  align-items: start;
+}
+.stage {
+  display: grid;
+  gap: var(--gap);
+  justify-items: center;
+  min-width: 0;
+}
+.aside {
+  align-self: center;
+}
+/* The chart fills the height left above the handscroll. Its lettering keeps
+   one size on screen however large the chart is drawn: --z is the number of
+   chart units to a CSS pixel, kept current by the script. */
+.chart {
+  --z: 1.9;
+  position: relative;
+  margin: 0;
+  justify-self: center;
+  width: min(100%, calc(100svh - var(--top) - var(--bottom) - var(--gap) - var(--scroll-h) - var(--scroll-head)));
+  container: chart / inline-size;
+}
+#chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+#chart .ring {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  opacity: 0.13;
+}
+#chart .ring.outer {
+  opacity: 0.28;
+}
+#chart .tick {
+  stroke: var(--ink);
+  stroke-width: 1;
+  opacity: 0.28;
+}
+#chart .tick.major {
+  stroke-width: 1.4;
+  opacity: 0.55;
+}
+#chart .wheel {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 0.82;
+}
+#chart .key {
+  font-family: var(--serif);
+  text-anchor: middle;
+  fill: var(--ink);
+}
+#chart .key.major {
+  font-size: calc(14px * var(--z));
+}
+#chart .key.minor {
+  font-size: calc(12px * var(--z));
+  font-style: italic;
+  fill: var(--ink-3);
+}
+#chart .route {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  stroke-linejoin: round;
+  opacity: 0.36;
+}
+#chart .route.op25 {
+  stroke-dasharray: 4 6;
+}
+#chart .trail {
+  fill: none;
+  stroke: var(--seal);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0;
+}
+#chart .trail.on {
+  animation: trail 2.4s var(--ease) forwards;
+}
+@keyframes trail {
+  0% {
+    opacity: 0.9;
+    stroke-dashoffset: var(--len);
+  }
+  60% {
+    opacity: 0.85;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+#chart .star {
+  cursor: pointer;
+  outline: none;
+}
+#chart .halo {
+  fill: var(--pigment);
+  opacity: 0.26;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(calc(1 + var(--pulse, 0) * 0.45));
+  transition: fill 0.6s, opacity 0.6s;
+}
+/* While a star sounds, its halo turns to ink and trembles with the attack. */
+#chart .star.playing .halo {
+  fill: var(--ink);
+  opacity: 0.3;
+}
+#chart .body {
+  fill: var(--pigment);
+  stroke: var(--ink);
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.3s var(--ease);
+}
+#chart .body.minor {
+  stroke-dasharray: 2.5 2;
+}
+#chart .select {
+  fill: none;
+  stroke: var(--seal);
+  stroke-width: 1.6;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#chart .tag {
+  font-family: var(--mono);
+  font-size: calc(9px * var(--z));
+  letter-spacing: 0.02em;
+  text-anchor: middle;
+  dominant-baseline: hanging;
+  fill: var(--ink-2);
+}
+/* On a small chart the stars sit too close to letter every one. */
+@container chart (max-width: 479px) {
+  #chart .tag {
+    opacity: 0;
+  }
+  #chart .star.selected .tag {
+    opacity: 1;
+  }
+}
+#chart .star:hover .body,
+#chart .star:focus-visible .body {
+  transform: scale(1.18);
+}
+#chart .star.selected .select {
+  opacity: 1;
+}
+#chart .star.selected .tag {
+  fill: var(--seal);
+}
+
+.tip {
+  position: fixed;
+  z-index: 6;
+  pointer-events: none;
+  padding: 6px 12px 7px;
+  background: rgba(250, 247, 241, 0.96);
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  font-size: var(--size-small);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 10px));
+  transition: opacity 0.15s;
+}
+.tip.on {
+  opacity: 1;
+}
+.tip b {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: var(--size-label);
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  margin-right: 8px;
+}
+
+/* The handscroll: the circle of fifths laid flat, read left to right in time */
+.scroll {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+}
+.scroll-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  color: var(--ink-3);
+}
+#scroll-title {
+  color: var(--ink-2);
+}
+.scroll-paper {
+  position: relative;
+  height: var(--scroll-h);
+  border-top: 1px solid var(--hair-2);
+  border-bottom: 1px solid var(--hair-2);
+  background: linear-gradient(to right, rgba(255, 253, 248, 0.55), rgba(255, 253, 248, 0.25));
+}
+.scroll-rows {
+  position: absolute;
+  inset: 4px 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-rows: repeat(12, minmax(0, 1fr));
+  font-size: var(--size-axis);
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+.scroll-rows li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-3);
+}
+.scroll-rows li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--pigment);
+  flex: none;
+}
+.scroll-rows span {
+  width: 20px;
+}
+.scroll-rows li::after {
+  content: '';
+  position: absolute;
+  left: 36px;
+  right: 0;
+  top: 50%;
+  border-top: 1px solid rgba(23, 23, 28, 0.06);
+}
+.scroll-sheet {
+  position: absolute;
+  inset: 4px 0 4px 36px;
+  cursor: pointer;
+}
+.scroll-sheet canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  mix-blend-mode: multiply;
+  transition: opacity 1.4s var(--ease);
+}
+.scroll-sheet canvas.on {
+  opacity: 1;
+}
+.playhead {
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  left: 0;
+  width: 1px;
+  background: var(--seal);
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+.playhead.on {
+  opacity: 0.8;
+}
+
+/* Aside: introduction, then one étude */
+.aside h1 {
+  margin: 16px 0 0;
+  font-family: var(--hand);
+  font-weight: 400;
+  font-size: var(--size-display);
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+.lede {
+  margin: 16px 0 0;
+  font-size: var(--size-lede);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.quote {
+  margin: 30px 0 0;
+  padding-left: 18px;
+  border-left: 1px solid var(--hair-2);
+}
+.quote p {
+  margin: 0;
+  font-style: italic;
+  font-size: var(--size-lede);
+  line-height: 1.45;
+}
+.quote footer {
+  margin-top: 10px;
+  color: var(--ink-3);
+}
+.actions {
+  margin-top: 34px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px 18px;
+}
+.hint {
+  color: var(--ink-3);
+}
+
+.card h2,
+.viewer-text h2 {
+  margin: 12px 0 0;
+  font-family: var(--hand);
+  font-weight: 400;
+  font-size: var(--size-title);
+  line-height: 1.15;
+}
+.card-key {
+  margin: 4px 0 0;
+  font-style: italic;
+  font-size: var(--size-lede);
+  color: var(--ink-2);
+}
+.entry {
+  margin: 24px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--hair);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 24px;
+}
+.entry div.wide {
+  grid-column: 1 / -1;
+}
+.entry dt {
+  color: var(--ink-3);
+}
+.entry dd {
+  margin: 3px 0 0;
+  font-size: var(--size-small);
+  line-height: 1.35;
+}
+.neighbours {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--hair);
+  display: grid;
+  gap: 8px;
+}
+.neighbours li {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  font-size: var(--size-small);
+  line-height: 1.45;
+}
+.neighbours .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pigment);
+  box-shadow: 0 0 0 1px var(--ink);
+  transform: translateY(-1px);
+}
+.neighbours button {
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: var(--hair-2);
+  text-underline-offset: 4px;
+}
+.neighbours button:hover {
+  text-decoration-color: var(--ink);
+}
+.neighbours .why {
+  color: var(--ink-3);
+  font-style: italic;
+}
+.card-links {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-links .step {
+  display: flex;
+  gap: 18px;
+}
+
+/* Plates */
+.plates,
+.notes {
+  padding: 140px 48px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.section-head {
+  max-width: 720px;
+}
+.section-head h2,
+.notes-head h2 {
+  margin: 14px 0 0;
+  font-family: var(--hand);
+  font-weight: 400;
+  font-size: var(--size-title);
+  line-height: 1.15;
+}
+.section-head p:last-child {
+  max-width: 30em;
+  margin: 20px 0 0;
+  font-size: var(--size-lede);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.grid {
+  list-style: none;
+  margin: 72px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 64px 44px;
+}
+.plate-tile {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+.plate-tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 2px;
+  box-shadow: 0 1px 1px rgba(23, 23, 28, 0.06), 0 24px 44px -32px rgba(23, 23, 28, 0.45);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.plate-tile:hover img {
+  transform: translateY(-4px);
+  box-shadow: 0 1px 1px rgba(23, 23, 28, 0.06), 0 30px 54px -30px rgba(23, 23, 28, 0.5);
+}
+.tile-ident {
+  display: block;
+  margin-top: 18px;
+  color: var(--ink-3);
+}
+.tile-name {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--hand);
+  font-size: var(--size-name);
+  line-height: 1.2;
+}
+.tile-key {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}
+
+/* Notes */
+.notes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 72px;
+  border-top: 1px solid var(--hair);
+  padding-bottom: 180px;
+}
+.notes-body {
+  max-width: 30em;
+}
+.notes-body > p {
+  margin: 0 0 1.1em;
+  line-height: 1.65;
+}
+.epigraph {
+  margin: 44px 0;
+}
+.epigraph blockquote {
+  margin: 0;
+}
+.epigraph p {
+  margin: 0;
+  font-style: italic;
+  font-size: var(--size-quote);
+  line-height: 1.38;
+}
+.epigraph figcaption {
+  margin-top: 12px;
+  color: var(--ink-3);
+}
+.notes h3 {
+  margin: 64px 0 8px;
+  font-weight: 400;
+  color: var(--ink-2);
+}
+.glossary {
+  margin: 0;
+}
+.glossary div {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 20px;
+  padding: 14px 0;
+  border-top: 1px solid var(--hair);
+}
+.glossary dt {
+  color: var(--ink-3);
+  padding-top: 4px;
+}
+.glossary dd {
+  margin: 0;
+  font-size: var(--size-small);
+  line-height: 1.5;
+}
+
+/* Player */
+.player {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: auto minmax(160px, 260px) minmax(120px, 1fr) auto auto auto;
+  align-items: center;
+  gap: 26px;
+  height: 68px;
+  padding: 0 48px env(safe-area-inset-bottom);
+  background: rgba(246, 242, 234, 0.88);
+  backdrop-filter: blur(14px) saturate(1.2);
+  border-top: 1px solid var(--hair);
+}
+.transport {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.transport button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+.transport button:hover {
+  background: rgba(23, 23, 28, 0.06);
+}
+.transport svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.transport .play {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--ink);
+}
+.transport .play svg path {
+  fill: var(--ink);
+}
+.transport .icon-pause path {
+  fill: none;
+  stroke-width: 2.2;
+}
+.icon-pause,
+.player.playing .icon-play {
+  display: none;
+}
+.player.playing .icon-pause {
+  display: block;
+}
+.now {
+  margin: 0;
+  display: grid;
+  min-width: 0;
+}
+.now-ident {
+  color: var(--ink-3);
+}
+.now-name {
+  font-family: var(--hand);
+  font-size: var(--size-name);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bar {
+  position: relative;
+  height: 20px;
+  cursor: pointer;
+}
+.bar::before,
+.bar i {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.bar::before {
+  right: 0;
+  height: 1px;
+  background: var(--hair-2);
+}
+.bar i {
+  width: 0;
+  height: 2px;
+  background: var(--ink);
+}
+.time {
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+/* The index: each opus a string of twelve stars in its key's pigment, joined
+   as on the chart, Op. 10 solid and Op. 25 dashed. */
+.index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 22px;
+}
+.index-op {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.index-label {
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.index-stars {
+  position: relative;
+  display: flex;
+}
+.index-stars::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  top: 50%;
+  height: 1px;
+  background: var(--hair-2);
+}
+.op25 .index-stars::before {
+  background: repeating-linear-gradient(90deg, var(--hair-2) 0 2px, transparent 2px 4px);
+}
+.index button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 28px;
+}
+.index button::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pigment);
+  transition: transform 0.2s var(--ease);
+}
+.index button:hover::before,
+.index button:focus-visible::before {
+  transform: scale(1.4);
+}
+.index button[aria-current='true']::before {
+  box-shadow:
+    0 0 0 2px var(--paper),
+    0 0 0 3px var(--seal);
+}
+.cycle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.cycle input {
+  accent-color: var(--ink);
+  margin: 0;
+}
+
+/* Viewer */
+.viewer {
+  width: 100vw;
+  max-width: none;
+  height: 100svh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+.viewer::backdrop {
+  background: var(--paper);
+}
+.viewer .close {
+  position: absolute;
+  top: 26px;
+  right: 48px;
+  z-index: 2;
+}
+.viewer-body {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 64px;
+  align-items: center;
+  padding: 72px 48px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.viewer-plate {
+  position: relative;
+  margin: 0;
+  justify-self: center;
+  width: min(100%, calc(100svh - 144px));
+  box-shadow: 0 1px 1px rgba(23, 23, 28, 0.06), 0 40px 80px -50px rgba(23, 23, 28, 0.55);
+}
+.viewer-plate img,
+.viewer-plate canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+.viewer-plate canvas {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  pointer-events: none;
+}
+.viewer-actions {
+  margin-top: 30px;
+}
+.viewer-step {
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: 1px solid var(--hair);
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 1280px) {
+  .index {
+    display: none;
+  }
+  .player {
+    grid-template-columns: auto minmax(140px, 240px) minmax(120px, 1fr) auto auto;
+  }
+}
+
+@media (max-width: 1100px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 40px;
+  }
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 56px 32px;
+  }
+}
+
+/* A short screen, such as a laptop or a tablet held sideways: a tighter frame
+   leaves more height to the chart. */
+@media (min-width: 861px) and (max-height: 820px) {
+  .hero {
+    --top: 72px;
+    --bottom: 80px;
+    --gap: 20px;
+    --scroll-h: 112px;
+  }
+}
+
+/* A phone or a tablet held upright: one column, the handscroll right under
+   the chart and the card beneath it. */
+@media (max-width: 860px) {
+  .masthead {
+    padding: 18px 20px;
+  }
+  .masthead nav {
+    gap: 18px;
+  }
+  .hero {
+    --gap: 22px;
+    --scroll-h: 112px;
+    padding: 72px 20px 120px;
+    align-items: start;
+  }
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--gap);
+  }
+  .chart {
+    width: min(100%, 640px);
+  }
+  .scroll-head {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .aside {
+    width: 100%;
+    max-width: 640px;
+    justify-self: center;
+  }
+  .plates,
+  .notes {
+    padding: 96px 20px;
+  }
+  .grid {
+    margin-top: 48px;
+  }
+  .notes {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding-bottom: 140px;
+  }
+  .glossary div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .player {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 12px;
+    height: 64px;
+    padding: 0 14px env(safe-area-inset-bottom);
+  }
+  .player .bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -10px;
+  }
+  .cycle {
+    display: none;
+  }
+  .viewer-body {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: 24px;
+    padding: 64px 20px 40px;
+    overflow-y: auto;
+  }
+  .viewer .close {
+    top: 18px;
+    right: 20px;
+  }
+  .viewer-plate {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation: none !important;
+  }
+}
+
+/* While the viewer is open, the page behind it holds still. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}

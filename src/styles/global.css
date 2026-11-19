@@ -1,0 +1,95 @@
+:root {
+  --paper: #f6f2ea;
+  --paper-2: #eee8dc;
+  --ink: #17171c;
+  --ink-2: #4b4b55;
+  --ink-3: #8d8c93;
+  --hair: rgba(23, 23, 28, 0.12);
+  --hair-2: rgba(23, 23, 28, 0.24);
+  --seal: #b0382c;
+  --hand: 'Nothing You Could Do', 'Segoe Script', cursive;
+  --serif: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+
+  /* Type: one size per role, easing from a phone to a wide desk. */
+  --size-axis: 9px; /* the row letters of the handscroll */
+  --size-label: 11px; /* mono capitals: labels, buttons, captions */
+  --size-small: clamp(15px, 14.25px + 0.2vw, 16.5px); /* entries, key lines, glossary */
+  --size-body: clamp(17px, 16.25px + 0.2vw, 18.5px); /* running text */
+  --size-lede: clamp(18px, 17px + 0.28vw, 20px); /* ledes and short quotations */
+  --size-quote: clamp(22px, 19px + 0.8vw, 27px); /* epigraphs */
+  --size-name: clamp(22px, 20px + 0.5vw, 26px); /* étude names in lists */
+  --size-title: clamp(38px, 31px + 1.6vw, 52px); /* section and étude titles */
+  --size-display: clamp(46px, 37px + 2.2vw, 64px); /* the title of the page */
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: var(--size-body);
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Running text keeps an even rag and no word alone on its last line. */
+p,
+dd {
+  text-wrap: pretty;
+}
+
+/* Rice paper: a faint fibre over the whole page. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.32;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.37 0 0 0 0 0.3 0 0 0 0.08 0'/></filter><rect width='260' height='260' filter='url(%23n)'/></svg>");
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--hair-2);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.2s;
+}
+
+a:hover {
+  text-decoration-color: var(--ink);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 1px solid var(--seal);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: rgba(176, 56, 44, 0.16);
+}
